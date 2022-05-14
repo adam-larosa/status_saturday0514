@@ -2,15 +2,14 @@ import { useState } from 'react'
 
 
 
-export default function NameForm() {
+export default function NameForm({ updateNames }) {
 
     const [ name, setName ] = useState( '' )
     const handleChange = e => setName( e.target.value )
     
-    
     const handleSubmit = event => {
         event.preventDefault()
-        // can we put the names somewhere else?
+        updateNames( name )
     } 
 
     return (
@@ -20,7 +19,6 @@ export default function NameForm() {
                 <input type='submit' />
             </form>
         </div>
-       
     )
 }
 
