@@ -1,9 +1,15 @@
 import './stylesheets/App.css';
 
+import NameForm from './components/NameForm'
+import DisplayNames from './components/DisplayNames'
+
+
+
 function App() {
 	return (
 		<div className="cool">
-			<h1>hello world</h1>
+			<NameForm />
+			<DisplayNames />
 		</div>
 	);
 }
