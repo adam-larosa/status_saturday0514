@@ -1,5 +1,6 @@
 
 import { useState, useEffect } from 'react'
+const parseJSON = r => r.json()
 
 function DisplayNames({ allNames }) {
     const [ savedNames, setSavedNames ] = useState( [] )
@@ -18,7 +19,7 @@ function DisplayNames({ allNames }) {
             },
             body: JSON.stringify( { name } )
         } )
-            .then( resp => resp.json() )
+            .then( parseJSON )
             .then( newNameObj => {
                 setSavedNames( [ ...savedNames, newNameObj ] )
             } )
@@ -32,19 +33,31 @@ function DisplayNames({ allNames }) {
             </button>
         </div> 
     ) 
+    const url = 'http://localhost:3000/names'
 
-    const savedElements = savedNames.map( (nameObj, i) => {
+    const handleDelete = ( nameObj ) => {
+        
+        fetch( `${url}/${nameObj.id}`, {
+            method: "DELETE"
+        } ).then( () => {
+            const newNames = savedNames.filter( nObj => nObj.id !== nameObj.id )
+            setSavedNames( newNames )
+        } )
+    }
+
+    const savedElements = savedNames.map( ( nameObj, i ) => {
         return <div key={`saved-${i}`}>
+            <button onClick={ () => handleDelete( nameObj ) }>
+                delete
+            </button>
             { nameObj.name }
         </div>
     } ) 
 
+    
+    
     useEffect( () => {
-        fetch( 'http://localhost:3000/names' )
-            .then( resp => resp.json() )
-            .then( savedNamesArray => {
-                setSavedNames( savedNamesArray )
-            } )
+        fetch( url ).then( parseJSON ).then( setSavedNames )
     }, [] )
    
     return (
