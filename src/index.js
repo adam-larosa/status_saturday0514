@@ -4,7 +4,6 @@ import './stylesheets/index.css';
 import App from './App';
 
 import Swapi from './Swapi'
-import People from './People'
 
 
 
